@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title><@= data.title @></title>
+    <@ if(data.css && data.css instanceof Array){ _.each(data.css,function(item) { @>
+      <link rel="stylesheet" type="text/css" href="<@= (ctx || "") + '/' + item + '?_v='+_build.ts @>" />
+    <@ })}else{ @>
+        <link rel="stylesheet" type="text/css" href="<@= (ctx || "") + '/' + data.css + '?_v='+_build.ts @>" />
+    <@ } @>
+    <script type="text/javascript" src="<@= (ctx || "") + '/' +'/js/flexible.js?_v='+_build.ts @>"></script>
+    <script type="text/javascript">
+      var _app = {
+        env : "<@= _build.env @>",
+        ctx : "<@= ctx @>",
+        //version:"<@= _build.version @>",
+        ts:"<@= _build.ts @>",
+        //cdn: "<@= _build.cdn @>",
+        name:"app"
+      };
+  </script>
+  </head>
