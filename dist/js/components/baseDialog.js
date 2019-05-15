@@ -1,0 +1,1 @@
+define(["zepto","vue"],function(e,n){return{tips:function(e){alert(e)}}});

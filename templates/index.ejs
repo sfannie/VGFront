@@ -6,7 +6,13 @@
 }); @>
 
 <body>
-    <h1>Hello World!</h1>
+    <div id="app">
+        <div class="header"><h1>{{title}}</h1></div>
+        <section>
+          <img src="images/test.jpg" width="30%" />
+        </section>
+        <div class="banner"></div>
+    </div>
 </body>
 
 <@- include('include/_footer.ejs', { data: { main: 'modules/index/index'}}) @>

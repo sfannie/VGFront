@@ -4,6 +4,7 @@ var path = require('path');
 var ejs = require('ejs');
 var gutil = require('gulp-util');
 var expressLess = require('express-less');
+var _ = require('underscore');
 
 var app = express();
 
@@ -21,7 +22,14 @@ app.set('views', path.join(__dirname, 'templates'));
 
 var CONTEXT_PATH = '/www',
     BUILD_TIMESTAMP = gutil.date(new Date(), "yyyymmddHHMMss"),
-    env = 'DEV';
+    env = 'DEV',
+    CDN_PATH = 'https://cdn.m.annie.com';
+
+if (env == 'UAT') {
+  CDN_PATH = 'https://cdn.m.uat.annie.com'
+} else if (env == 'DEV') {
+  CDN_PATH = '/www';
+}
 
 app.engine('ejs', function() {
   ejs.renderFile(arguments[0], {
@@ -30,10 +38,11 @@ app.engine('ejs', function() {
         //pkg: pkg,
         //version: pkg.version,
         ts: BUILD_TIMESTAMP,
-        env: env
+        env: env,
+        cdn: CDN_PATH
     },
     //Utils: new Utils(env),
-    //_: _,
+    _: _,
     data: {}
   }, arguments[1], arguments[2]);
 });

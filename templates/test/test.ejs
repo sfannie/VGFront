@@ -1,0 +1,14 @@
+<@- include('../include/_header.ejs', {
+  data: {
+    title: 'Hello Test!',
+    css: 'css/index.css'
+  }
+}); @>
+
+<body>
+    <div id="app">
+        <div class="header"><h1>{{title}}</h1></div>
+    </div>
+</body>
+
+<@- include('../include/_footer.ejs', { data: { main: 'modules/index/index'}}) @>

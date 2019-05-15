@@ -1,7 +1,12 @@
-<script type="text/javascript" src="<@= (ctx || "") + '/' +'/libs/require.js?_v='+_build.ts @>"></script>
-<script type="text/javascript" src="<@= (ctx || "") + '/' +'/libs/require-config.js?_v='+_build.ts @>"></script>
+<@ if (_build.env == 'DEV') { @>
+    <script type="text/javascript" src="<@= _build.cdn + '/libs/require.js?_v='+_build.ts @>"></script>
+    <script type="text/javascript" src="<@= _build.cdn + '/libs/require-config.js?_v='+_build.ts @>"></script>
+<@ }  else { @>
+    <script type="text/javascript" src="<@= _build.cdn + '/libs/loader.min.js?_v='+_build.ts @>"></script>
+<@ } @>
+
 <script type="text/javascript">
- requirejs.config({baseUrl:"<@= (ctx || "") @>"});
+ requirejs.config({baseUrl:"<@= _build.cdn @>"});
  require(["<@= data.main @>"]);
 </script>
 </html>
