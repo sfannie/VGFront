@@ -5,9 +5,12 @@ var gulp = require('gulp'),
     path = require('path'),
     less = require('gulp-less'),
     minifyCSS = require('gulp-minify-css'),
+    cssTimeStamp = require('gulp-timestamp-css-url'),
+    rev = require('gulp-rev'),
     plumber = require('gulp-plumber'),
     _ = require('underscore'),
     ejs = require('gulp-ejs'),
+    through = require('through2'),
     htmlmin = require('gulp-htmlmin'),
     runSequence = require('gulp-run-sequence'),
     cdnify = require('gulp-cdnify'),
@@ -112,10 +115,16 @@ gulp.task('clean', function(){
 //less编译
 gulp.task('less', function(){
   return gulp.src(Config.less_src)
-      //.pipe(plumber())
+      .pipe(plumber())
       .pipe(less())
-      .pipe(minifyCSS())
+      //.pipe(minifyCSS())
+      .pipe(cssTimeStamp({
+        useDate:false,  //取当前时间
+        customDate: BUILD_TIMESTAMP  //自定义时间，跟html,js保持同步
+      }))
       .pipe(gulp.dest(Config.less_dest))
+      //.pipe(rev.manifest())
+      //.pipe(gulp.dest(Config.src + '/rev'))
 });
 
 //拷贝文件
@@ -154,15 +163,7 @@ gulp.task('ejs', function(){
         html: {
           'img[src]': 'src'
         },
-        rewriter: function(url, process){
-          if (url.indexOf('/images') == 0) {
-            return process(url+'?_v='+BUILD_TIMESTAMP);
-          } else if(url.indexOf('images') == 0) {
-            return process(url+'?_v='+BUILD_TIMESTAMP);
-          } else {
-            return process(url+'?_v='+BUILD_TIMESTAMP);
-          }
-        }
+        timestamp: BUILD_TIMESTAMP
       }))
       .pipe(htmlmin({
             removeComments: true, 
